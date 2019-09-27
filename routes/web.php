@@ -18,15 +18,14 @@ $router->get('/', function () use ($router) {
 });
 
 $router->get('test',function(){
-  throw new Helmi\Exceptions\Unauthorized;
+  throw new Helmi\Exceptions\InvalidPayload;
 });
 $router->group(['prefix' => 'user'],function() use ($router){
-  $router->get('/token', [
-    function (Request $request ) {
-      $user = Auth::user();
-      $user = $request->user();
-      return response()->json( $user );
-    }
-  ]);
+  $router->post('/','UserController@create');
+
+  $router->get('/token', 'UserController@getToken');
+  $router->get('/check-token', ['middleware'=>'auth',function( App\Http\Controllers\UserController $controller , Request $req ){
+    return $controller->check($req);
+  }]);
 });
 

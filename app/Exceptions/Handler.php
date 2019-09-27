@@ -73,10 +73,11 @@ class Handler extends ExceptionHandler
                 'error'=> empty($errorDetail->message) ? 'Data not found' : $errorDetail->message ,
               ]);
               break;
-            case 403:
+            case 400:
               $defaultResponse = array_merge($defaultResponse , [
                 'status'=> $errorDetail->statusCode,
                 'error'=> empty($errorDetail->message) ? 'Invalid Payload' : $errorDetail->message ,
+                'attributes' => $exception->attributes ,
               ]);
               break;
             default: 
@@ -88,6 +89,10 @@ class Handler extends ExceptionHandler
           }
 
           return response()->json( $defaultResponse , $errorDetail->statusCode , $this->defaultHeaders  );
+        }elseif($exception instanceof \Illuminate\Database\QueryException){
+          $defaultResponse['status'] = 500;
+          $defaultResponse['error'] = 'Fatal error on DB ...';
+          return response()->json( $defaultResponse , 500 , $this->defaultHeaders  );
         }
         
         return parent::render($request, $exception);
