@@ -11,6 +11,22 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+  return $router->app->version();
 });
+
+$router->get('test',function(){
+  throw new Helmi\Exceptions\Unauthorized;
+});
+$router->group(['prefix' => 'user'],function() use ($router){
+  $router->get('/token', [
+    function (Request $request ) {
+      $user = Auth::user();
+      $user = $request->user();
+      return response()->json( $user );
+    }
+  ]);
+});
+
