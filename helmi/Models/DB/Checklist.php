@@ -14,6 +14,10 @@ class Checklist extends Model
         return $this->hasOne('App\User', 'id', 'last_update_by');
     }
 
+    public function items(){
+        return $this->hasMany('Helmi\Models\DB\ChecklistItem','checklist_id','id');
+    }
+
     protected $fillable =[
         'object_domain','object_id','description','due','urgency','created_by','last_update_by'
     ];

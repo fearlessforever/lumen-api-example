@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Helmi\Services\Checklist;
 
 class ChecklistController extends Controller
 {
-    function __construct( \Helmi\Services\Checklist $service ){
+    function __construct( Checklist $service ){
         $this->service = $service ;
     }
     /**
@@ -50,6 +51,10 @@ class ChecklistController extends Controller
         //
     }
 
+    public function setComplete( Request $request ){
+        return $this->service->setComplete( $request );
+    }
+
     /**
      * Display the specified resource.
      *
@@ -60,18 +65,7 @@ class ChecklistController extends Controller
     {
         return $this->service->get($id);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -104,6 +98,6 @@ class ChecklistController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return $this->service->delete( $id );
     }
 }

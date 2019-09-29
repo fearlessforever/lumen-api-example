@@ -25,6 +25,7 @@ class Checklist extends Resource
                 "is_completed"  => (bool)$this->is_completed,
                 "due"           => $this->due,
                 "urgency"       => $this->urgency,
+                "items"         => new ChecklistItems($this->whenLoaded('items')),
                 "completed_at"  => null,
                 "updated_by"    => $this->last_update_by,
                 "updated_by_user" => new User( $this->whenLoaded('updated_by_user') ),

@@ -35,7 +35,9 @@ $router->group([
   'middleware'=>'auth',
 ],function() use ($router){
   $router->post('/','ChecklistController@create');
+  $router->post('/complete','ChecklistController@setComplete');
   $router->patch('/{id}','ChecklistController@update');
+  $router->delete('/{id}','ChecklistController@destroy');
   $router->get('/{id}',['as'=>'checklist.self' , function( $id , App\Http\Controllers\ChecklistController $controller ){
     return $controller->show($id);
   }]);
