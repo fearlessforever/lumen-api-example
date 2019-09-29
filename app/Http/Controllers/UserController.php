@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json(['token'=>$token]);
         }
 
-        throw new \Helmi\Exceptions\InvalidPayload;
+        throw new \Helmi\Exceptions\DataIsEmpty;
     }
 
     public function check( Request $request ){

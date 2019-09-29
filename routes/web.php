@@ -29,3 +29,20 @@ $router->group(['prefix' => 'user'],function() use ($router){
   }]);
 });
 
+// Checklist
+$router->group([
+  'prefix' => 'checklists',
+  'middleware'=>'auth',
+],function() use ($router){
+  $router->post('/','ChecklistController@create');
+  $router->patch('/{id}','ChecklistController@update');
+  $router->get('/{id}',['as'=>'checklist.self' , function( $id , App\Http\Controllers\ChecklistController $controller ){
+    return $controller->show($id);
+  }]);
+  $router->get('/',['as'=>'checklist.list' , function( Request $req, App\Http\Controllers\ChecklistController $controller ){
+    return $controller->index($req);
+  }]);
+  // $router->get('/{id}','ChecklistController@show');
+  // $router->get('/','ChecklistController@index');
+  
+});
