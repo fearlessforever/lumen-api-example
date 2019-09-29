@@ -52,7 +52,11 @@ class ChecklistController extends Controller
     }
 
     public function setComplete( Request $request ){
-        return $this->service->setComplete( $request );
+        return $this->service->setCompleteMany( $request , true );
+    }
+
+    public function setInComplete( Request $request ){
+        return $this->service->setCompleteMany( $request , false );
     }
 
     /**

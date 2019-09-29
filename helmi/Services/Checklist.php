@@ -2,13 +2,18 @@
 namespace Helmi\Services;
 
 use Helmi\Models\DB\Checklist as Model;
+use Helmi\Models\DB\ChecklistItem as ModelItems;
 use Illuminate\Http\Request;
 
-// Models
+// ============= Resource Models
 use Helmi\Models\Requests\ChecklistRequest;
 use Helmi\Models\Requests\PaginationParams;
+use Helmi\Models\Requests\ChecklistCompletes ;
+
 use Helmi\Models\Responses\Checklist as ChecklistResponse;
 use Helmi\Models\Responses\ChecklistCollection ;
+use Helmi\Models\Responses\ChecklistItem;
+// ============= END OF Resource Models
 
 class Checklist{
     
@@ -88,7 +93,23 @@ class Checklist{
         return $fetchedData;
     }
 
-    public function setComplete( Request $req ){
+    public function setCompleteMany( Request $req , $isComplete = false ){
+        $request = new ChecklistCompletes( $req );
+        $request = $request->toArray(null) ;
+        if( empty($request['data']) )
+            throw new \Helmi\Exceptions\InvalidPayload;
+        $ids = array_map(function($val){
+            return $val['item_id'];
+        } , $request['data'] );
 
+        $items = ModelItems::whereIn('id', $ids)->select('id','checklist_id','is_completed')->get();
+        if( empty($items))
+            throw new \Helmi\Exceptions\DataIsEmpty;
+        // SAVE data
+        foreach($items as $val){
+            $val->is_completed = $isComplete ;
+            $val->save();
+        }
+        return ChecklistItem::collection($items);
     }
 }
