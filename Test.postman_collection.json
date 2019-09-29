@@ -1,0 +1,447 @@
+{
+	"info": {
+		"_postman_id": "7a488fa6-5ffa-4a8e-bb80-20ff5a34e5b4",
+		"name": "Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "723ba747-6d5c-4973-948f-f87fee89a87f",
+								"exec": [
+									"",
+									"pm.test(\"Get token\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"token\", jsonData.token );",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/user/token?email=test@test.com&password=123456",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"token"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "test@test.com"
+								},
+								{
+									"key": "password",
+									"value": "123456"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/user/check-token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"check-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "test@test.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/user/?",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								""
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "test@test.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Checklist",
+			"item": [
+				{
+					"name": "Get Checklist List",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/checklists/?oke=deh&page_limit=100&include=items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"checklists",
+								""
+							],
+							"query": [
+								{
+									"key": "oke",
+									"value": "deh"
+								},
+								{
+									"key": "page_limit",
+									"value": "100"
+								},
+								{
+									"key": "include",
+									"value": "items"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Checklist by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/checklists/19",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"checklists",
+								"19"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Checklist By iD",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"object_domain\":\"contactz\",\n      \"object_id\": \"1\",\n      \"due\": null ,\n      \"urgency\": 1,\n      \"description\": \"Need to verify this guy house. lah ya z\",\n      \"items\": [\n        \"Visit his house\",\n        \"Capture a photo\",\n        \"Meet him on the house\"\n      ],\n      \"task_id\": \"123\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/checklists/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"checklists",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Checklist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"attributes\": {\n      \"object_domain\":\"contact\",\n      \"object_id\": \"1\",\n      \"due\": \"2019-01-25T07:50:14+00:00\",\n      \"urgency\": 1,\n      \"description\": \"Need to verify this guy house.\",\n      \"items\": [\n        \"Visit his house\",\n        \"Capture a photo\",\n        \"Meet him on the house\"\n      ],\n      \"task_id\": \"123\"\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/checklists",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"checklists"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Delete Checklist by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/checklists/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"checklists",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Complete Items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"item_id\": 1,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 2,\n      \"item_id\": 2,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 3,\n      \"item_id\": 3,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 4,\n      \"item_id\": 4,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/checklists/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"checklists",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Incomplete Items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"data\": [\n    {\n      \"id\": 1,\n      \"item_id\": 1,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 2,\n      \"item_id\": 2,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 3,\n      \"item_id\": 3,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    },\n    {\n      \"id\": 4,\n      \"item_id\": 4,\n      \"is_completed\": true,\n      \"checklist_id\": 1\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/checklists/incomplete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"checklists",
+						"incomplete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
